@@ -16,7 +16,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-screen h-screen flex items-center justify-center">
-        <h1>Hello world!</h1>
+        <LoginCard />
+        {/* <UseRefTest /> */}
       </main>
     </>
   );
