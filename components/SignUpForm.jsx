@@ -5,7 +5,7 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase";
 import { useRouter } from "next/router";
@@ -19,7 +19,7 @@ import {
   doc,
 } from "firebase/firestore";
 
-export default function Example() {
+export default function SignUpForm() {
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,31 +35,34 @@ export default function Example() {
     setSuccess("");
     {
       password == confirmPassword
-        ? createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-              console.log(userCredential);
-              // router.push("/dashboard");
-              setDoc(doc(db, "users", userCredential.user.uid), {
-                // get database
-                displayName: displayName,
-                email: userCredential.user.email,
-                created_at: serverTimestamp(),
-                role: "member",
-              });
-              setDisplayName("");
-              setEmail("");
-              setPassword("");
-              setConfirmPassword("");
-              setSuccess("Account created successfully.");
-            })
-            .catch((error) => {
-              console.log(error.message);
-              {
-                error.message === "Firebase: Error (auth/email-already-in-use)."
-                  ? setError("Account already exists.")
-                  : setError(error.message);
-              }
-            })
+        ? displayName !== ""
+          ? createUserWithEmailAndPassword(auth, email, password)
+              .then((userCredential) => {
+                console.log(userCredential);
+                // router.push("/dashboard");
+                setDoc(doc(db, "users", userCredential.user.uid), {
+                  // get database
+                  displayName: displayName,
+                  email: userCredential.user.email,
+                  created_at: serverTimestamp(),
+                  role: "member",
+                });
+                setDisplayName("");
+                setEmail("");
+                setPassword("");
+                setConfirmPassword("");
+                setSuccess("Account created successfully.");
+              })
+              .catch((error) => {
+                console.log(error.message);
+                {
+                  error.message ===
+                  "Firebase: Error (auth/email-already-in-use)."
+                    ? setError("Account already exists.")
+                    : setError(error.message);
+                }
+              })
+          : setError("Please fill in your name.")
         : setError("Passwords do not match.");
     }
   }
@@ -79,12 +82,16 @@ export default function Example() {
             label="Name"
             onChange={(e) => setDisplayName(e.target.value)}
             value={displayName}
+            required
+            error={error == "Please fill in your name." ? true : false}
           />
           <Input
             size="lg"
             label="Email"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
+            required
+            error={error == "Account already exists." ? true : false}
           />
           <Input
             type="password"
@@ -92,6 +99,8 @@ export default function Example() {
             label="Password"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
+            required
+            error={error == "Passwords do not match." ? true : false}
           />
           <Input
             type="password"
@@ -99,6 +108,8 @@ export default function Example() {
             label="Confirm Password"
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
+            required
+            error={error == "Passwords do not match." ? true : false}
           />
         </div>
         {/* <Checkbox

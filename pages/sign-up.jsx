@@ -1,7 +1,7 @@
 import Head from "next/head";
-import LoginCard from "@/components/LoginCard";
+import SignUpForm from "@/components/SignUpForm";
 
-export default function Login() {
+export default function SignUp() {
   return (
     <>
       <Head>
@@ -11,7 +11,7 @@ export default function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="w-screen h-screen flex items-center justify-center">
-        <LoginCard />
+        <SignUpForm />
       </main>
     </>
   );
