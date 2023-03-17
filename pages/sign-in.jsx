@@ -1,12 +1,7 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
 import LoginCard from "@/components/LoginCard";
-import UseRefTest from "@/components/UseRefTest";
 
-const inter = Inter({ subsets: ["latin"] });
-
-export default function Home() {
+export default function Login() {
   return (
     <>
       <Head>
@@ -17,7 +12,6 @@ export default function Home() {
       </Head>
       <main className="w-screen h-screen flex items-center justify-center">
         <LoginCard />
-        {/* <UseRefTest /> */}
       </main>
     </>
   );

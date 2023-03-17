@@ -1,8 +1,6 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "next/font/google";
 import LoginCard from "@/components/LoginCard";
-import UseRefTest from "@/components/UseRefTest";
 
 const inter = Inter({ subsets: ["latin"] });
 
