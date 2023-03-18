@@ -6,18 +6,9 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignUpForm() {
   const [displayName, setDisplayName] = useState("");
@@ -26,45 +17,62 @@ export default function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const { signup, signUpMessage, setSignUpMessage } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    setSignUpMessage("");
+  }, []);
+
+  useEffect(() => {
+    signUpMessage == "Success!"
+      ? setSuccess("Account created successfully.")
+      : signUpMessage == "Firebase: Error (auth/email-already-in-use)."
+      ? setError("Account already exists.")
+      : setError(signUpMessage);
+  }, [signUpMessage]);
 
   function handleSignUp(e) {
     e.preventDefault();
+    setLoading(true);
+    setSignUpMessage("");
     setError("");
     setSuccess("");
-    {
-      password == confirmPassword
-        ? displayName !== ""
-          ? createUserWithEmailAndPassword(auth, email, password)
-              .then((userCredential) => {
-                console.log(userCredential);
-                // router.push("/dashboard");
-                setDoc(doc(db, "users", userCredential.user.uid), {
-                  // get database
-                  displayName: displayName,
-                  email: userCredential.user.email,
-                  created_at: serverTimestamp(),
-                  role: "member",
-                });
-                setDisplayName("");
-                setEmail("");
-                setPassword("");
-                setConfirmPassword("");
-                setSuccess("Account created successfully.");
-              })
-              .catch((error) => {
-                console.log(error.message);
-                {
-                  error.message ===
-                  "Firebase: Error (auth/email-already-in-use)."
-                    ? setError("Account already exists.")
-                    : setError(error.message);
-                }
-              })
-          : setError("Please fill in your name.")
-        : setError("Passwords do not match.");
+
+    if (displayName == "") {
+      setError("Please fill in your name.");
+      setLoading(false);
+      return;
     }
+
+    if (email == "") {
+      setError("Please enter your email.");
+      setLoading(false);
+      return;
+    }
+
+    if (password == "" || confirmPassword == "") {
+      setError("Please enter password.");
+      setLoading(false);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      setLoading(false);
+      return;
+    }
+
+    signup(email, password, displayName);
+    setPassword("");
+    setConfirmPassword("");
+    setLoading(false);
+
+    // error.message === "Firebase: Error (auth/email-already-in-use)."
+    //   ? setError("Account already exists.")
+    //   : setError(error.message);
   }
 
   return (
@@ -91,7 +99,12 @@ export default function SignUpForm() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             required
-            error={error == "Account already exists." ? true : false}
+            error={
+              error == "Account already exists." ||
+              error == "Please enter your email."
+                ? true
+                : false
+            }
           />
           <Input
             type="password"
@@ -100,7 +113,12 @@ export default function SignUpForm() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
-            error={error == "Passwords do not match." ? true : false}
+            error={
+              error == "Passwords do not match." ||
+              error == "Please enter password."
+                ? true
+                : false
+            }
           />
           <Input
             type="password"
@@ -109,7 +127,12 @@ export default function SignUpForm() {
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
             required
-            error={error == "Passwords do not match." ? true : false}
+            error={
+              error == "Passwords do not match." ||
+              error == "Please enter password."
+                ? true
+                : false
+            }
           />
         </div>
         {/* <Checkbox
@@ -140,7 +163,12 @@ export default function SignUpForm() {
             {success}
           </Typography>
         )}
-        <Button className="mt-6" fullWidth onClick={handleSignUp}>
+        <Button
+          className="mt-6"
+          fullWidth
+          onClick={handleSignUp}
+          disabled={loading ? true : false}
+        >
           Register
         </Button>
         <Typography color="gray" className="mt-4 text-center font-normal">
