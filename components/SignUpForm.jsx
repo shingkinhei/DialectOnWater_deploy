@@ -27,10 +27,23 @@ export default function SignUpForm() {
   }, []);
 
   useEffect(() => {
+    var count = 6;
+    function countDown() {
+      setLoading(true);
+      var counting = setInterval(() => {
+        count--;
+        setSuccess(`成功建立帳戶。${count}秒後重新導向至主頁。`);
+        if (count === 0) clearInterval(counting);
+      }, 1000);
+    }
+
     signUpMessage == "Success!"
-      ? setSuccess("Account created successfully.")
-      : signUpMessage == "Firebase: Error (auth/email-already-in-use)."
-      ? setError("Account already exists.")
+      ? countDown()
+      : // setSuccess(
+      //     `Account created successfully. Redirecting in ${count} seconds.`
+      //   )
+      signUpMessage == "Firebase: Error (auth/email-already-in-use)."
+      ? setError("電郵地址已被註冊。")
       : setError(signUpMessage);
   }, [signUpMessage]);
 
@@ -42,25 +55,25 @@ export default function SignUpForm() {
     setSuccess("");
 
     if (displayName == "") {
-      setError("Please fill in your name.");
+      setError("請輸入姓名。");
       setLoading(false);
       return;
     }
 
     if (email == "") {
-      setError("Please enter your email.");
+      setError("請輸入電郵地址。");
       setLoading(false);
       return;
     }
 
     if (password == "" || confirmPassword == "") {
-      setError("Please enter password.");
+      setError("請輸入密碼。");
       setLoading(false);
       return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match.");
+      setError("兩次密碼不相符。");
       setLoading(false);
       return;
     }
@@ -69,39 +82,34 @@ export default function SignUpForm() {
     setPassword("");
     setConfirmPassword("");
     setLoading(false);
-
-    // error.message === "Firebase: Error (auth/email-already-in-use)."
-    //   ? setError("Account already exists.")
-    //   : setError(error.message);
   }
 
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
-        Sign Up
+        建立帳戶
       </Typography>
       <Typography color="gray" className="mt-1 font-normal">
-        Enter your details to register.
+        請輸入以下資訊。
       </Typography>
       <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
         <div className="mb-4 flex flex-col gap-6">
           <Input
             size="lg"
-            label="Name"
+            label="姓名"
             onChange={(e) => setDisplayName(e.target.value)}
             value={displayName}
             required
-            error={error == "Please fill in your name." ? true : false}
+            error={error == "請輸入姓名。" ? true : false}
           />
           <Input
             size="lg"
-            label="Email"
+            label="電郵地址"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             required
             error={
-              error == "Account already exists." ||
-              error == "Please enter your email."
+              error == "電郵地址已被註冊。" || error == "請輸入電郵地址。"
                 ? true
                 : false
             }
@@ -109,13 +117,12 @@ export default function SignUpForm() {
           <Input
             type="password"
             size="lg"
-            label="Password"
+            label="密碼"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
             error={
-              error == "Passwords do not match." ||
-              error == "Please enter password."
+              error == "兩次密碼不相符。" || error == "請輸入密碼。"
                 ? true
                 : false
             }
@@ -123,13 +130,12 @@ export default function SignUpForm() {
           <Input
             type="password"
             size="lg"
-            label="Confirm Password"
+            label="確認密碼"
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
             required
             error={
-              error == "Passwords do not match." ||
-              error == "Please enter password."
+              error == "兩次密碼不相符。" || error == "請輸入密碼。"
                 ? true
                 : false
             }
@@ -164,20 +170,20 @@ export default function SignUpForm() {
           </Typography>
         )}
         <Button
-          className="mt-6"
+          className="mt-6 text-md"
           fullWidth
           onClick={handleSignUp}
           disabled={loading ? true : false}
         >
-          Register
+          建立
         </Button>
         <Typography color="gray" className="mt-4 text-center font-normal">
-          Already have an account?{" "}
+          已有帳戶？{" "}
           <a
             href="#"
             className="font-medium text-blue-500 transition-colors hover:text-blue-700"
           >
-            Sign In
+            登入
           </a>
         </Typography>
       </form>

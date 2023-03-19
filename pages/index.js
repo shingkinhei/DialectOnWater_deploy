@@ -1,10 +1,9 @@
 import Head from "next/head";
-import { Inter } from "next/font/google";
-import LoginCard from "@/components/SignUpForm";
-
-const inter = Inter({ subsets: ["latin"] });
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Home() {
+  const { currentUser } = useAuth();
+
   return (
     <>
       <Head>
@@ -13,6 +12,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      {currentUser && <div>{currentUser.email}</div>}
       <main className="w-screen h-screen flex items-center justify-center">
         <h1>Hello world!</h1>
       </main>
