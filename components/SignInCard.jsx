@@ -9,6 +9,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { auth, db } from "@/firebase";
+import { getDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
+
+import { getRedirectResult } from "firebase/auth";
 
 export default function SignInCard() {
   const [email, setEmail] = useState("");
@@ -23,7 +27,60 @@ export default function SignInCard() {
     setSignInMessage,
     localSignIn,
     googleSignIn,
+    facebookSignIn,
   } = useAuth();
+
+  useEffect(() => {
+    // handling response for Google & Facebook login
+    getRedirectResult(auth)
+      .then((result) => {
+        if (!result) {
+          return;
+        } else {
+          const userExists = doc(db, "users", result.user.uid);
+          async function fetchUser() {
+            // prevent overwriting existing user information
+            try {
+              const userSnap = await getDoc(userExists);
+              if (userSnap.data() !== undefined) {
+                return;
+              } else {
+                if (result && result.providerId == "google.com") {
+                  setDoc(doc(db, "users", result.user.uid), {
+                    displayName: result.user.displayName,
+                    email: result.user.email,
+                    phoneNumber: result.user.phoneNumber,
+                    createdAt: serverTimestamp(),
+                    role: "member",
+                    signUpMethod: "Google",
+                  });
+                }
+                if (result && result.providerId == "facebook.com") {
+                  setDoc(doc(db, "users", result.user.uid), {
+                    displayName: result.user.displayName,
+                    email: result.user.email,
+                    phoneNumber: result.user.phoneNumber,
+                    createdAt: serverTimestamp(),
+                    role: "member",
+                    signUpMethod: "Facebook",
+                  });
+                }
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
+
+          fetchUser();
+        }
+      })
+      .catch((error) =>
+        error.message ==
+        "Firebase: Error (auth/account-exists-with-different-credential)."
+          ? setError("該電郵地址已以其他登入方式註冊。")
+          : setError(error.message)
+      );
+  }, []);
 
   useEffect(() => {
     signInMessage && setError("電郵地址或密碼錯誤。");
@@ -54,14 +111,19 @@ export default function SignInCard() {
     setLoading(false);
   }
 
-  function handleSignOut(e) {
-    e.preventDefault();
-    logOut();
-  }
-
   function handleGoogleSignIn(e) {
     e.preventDefault();
     googleSignIn();
+  }
+
+  function handleFacebookSignIn(e) {
+    e.preventDefault();
+    facebookSignIn();
+  }
+
+  function handleSignOut(e) {
+    e.preventDefault();
+    logOut();
   }
 
   return (
@@ -77,7 +139,7 @@ export default function SignInCard() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             required
-            error={error && error !== "請輸入密碼。" ? true : false}
+            error={error && error == "請輸入電郵地址。" ? true : false}
           />
           <Input
             type="password"
@@ -86,7 +148,7 @@ export default function SignInCard() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
-            error={error && error !== "請輸入電郵地址。" ? true : false}
+            error={error && error == "請輸入密碼。" ? true : false}
           />
         </div>
         {error && (
@@ -122,6 +184,7 @@ export default function SignInCard() {
             Google
           </Button>
           <Button
+            onClick={handleFacebookSignIn}
             className="mt-6 text-md"
             fullWidth
             disabled={loading ? true : false}
