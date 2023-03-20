@@ -4,6 +4,8 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
 } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
@@ -56,6 +58,16 @@ export function AuthProvider({ children }) {
       });
   }
 
+  function setUpRecaptcha(phoneNumber) {
+    const recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container", // render recaptcha inside a div with id "recaptcha-container"
+      {},
+      auth
+    );
+    recaptchaVerifier.render();
+    return signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -77,6 +89,7 @@ export function AuthProvider({ children }) {
     signInMessage,
     setSignInMessage,
     localSignIn,
+    setUpRecaptcha,
   };
 
   return (
