@@ -20,6 +20,7 @@ export default function SignInCard() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const router = useRouter();
   const {
     logOut,
     currentUser,
@@ -28,6 +29,7 @@ export default function SignInCard() {
     localSignIn,
     googleSignIn,
     facebookSignIn,
+    anonymousSignIn,
   } = useAuth();
 
   useEffect(() => {
@@ -121,6 +123,11 @@ export default function SignInCard() {
     facebookSignIn();
   }
 
+  function handleAnonymousSignIn(e) {
+    e.preventDefault();
+    anonymousSignIn();
+  }
+
   function handleSignOut(e) {
     e.preventDefault();
     logOut();
@@ -169,6 +176,7 @@ export default function SignInCard() {
             或用以下方式登入
           </legend>
           <Button
+            onClick={() => router.push("/sign-in/phone")}
             className="mt-6 text-md"
             fullWidth
             disabled={loading ? true : false}
@@ -191,6 +199,14 @@ export default function SignInCard() {
           >
             Facebook
           </Button>
+          <Button
+            onClick={handleAnonymousSignIn}
+            className="mt-6 text-md"
+            fullWidth
+            disabled={loading ? true : false}
+          >
+            訪客模式
+          </Button>
         </fieldset>
         <Button
           onClick={handleSignOut}
@@ -201,12 +217,12 @@ export default function SignInCard() {
         </Button>
         <Typography color="gray" className="mt-4 text-center font-normal">
           未有帳戶？{" "}
-          <a
-            href="/sign-up"
-            className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+          <span
+            onClick={() => router.push("/sign-up")}
+            className="font-medium text-blue-500 transition-colors hover:text-blue-700 cursor-pointer"
           >
             註冊
-          </a>
+          </span>
         </Typography>
       </form>
       {currentUser && (
