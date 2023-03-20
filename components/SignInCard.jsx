@@ -8,14 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
 import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignInCard() {
@@ -74,7 +66,7 @@ export default function SignInCard() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             required
-            error={error && true}
+            error={error ? true : false}
           />
           <Input
             type="password"
@@ -83,7 +75,7 @@ export default function SignInCard() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
-            error={error && true}
+            error={error ? true : false}
           />
         </div>
         {error && (
@@ -108,7 +100,7 @@ export default function SignInCard() {
             fullWidth
             disabled={loading ? true : false}
           >
-            -
+            電話號碼
           </Button>
         </fieldset>
         <Button
@@ -118,8 +110,21 @@ export default function SignInCard() {
         >
           登出
         </Button>
+        <Typography color="gray" className="mt-4 text-center font-normal">
+          未有帳戶？{" "}
+          <a
+            href="#"
+            className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+          >
+            註冊
+          </a>
+        </Typography>
       </form>
-      {currentUser && <div>{currentUser.email}</div>}
+      {currentUser && (
+        <div>
+          {currentUser.email} {currentUser.phoneNumber}
+        </div>
+      )}
     </Card>
   );
 }
