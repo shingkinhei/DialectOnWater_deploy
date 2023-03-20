@@ -7,7 +7,6 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { db } from "@/firebase";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
@@ -20,6 +19,7 @@ export default function SignInPhone() {
   const [flag, setFlag] = useState(false);
   const [otpInfo, setOtpInfo] = useState("");
 
+  const router = useRouter();
   const { currentUser, signInMessage, setSignInMessage, setUpRecaptcha } =
     useAuth();
 
@@ -152,12 +152,12 @@ export default function SignInPhone() {
               獲取驗證碼
             </Button>
             <Typography color="gray" className="mt-4 text-center font-normal">
-              <a
-                href="#"
-                className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+              <span
+                onClick={() => router.push("/sign-in")}
+                className="font-medium text-blue-500 transition-colors hover:text-blue-700 cursor-pointer"
               >
                 返回
-              </a>
+              </span>
             </Typography>
           </form>
         </>

@@ -9,8 +9,7 @@ import {
   GoogleAuthProvider,
   FacebookAuthProvider,
   signInWithRedirect,
-  signInWithPopup,
-  getRedirectResult,
+  signInAnonymously,
 } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
@@ -86,6 +85,10 @@ export function AuthProvider({ children }) {
     signInWithRedirect(auth, facebook);
   }
 
+  function anonymousSignIn() {
+    signInAnonymously(auth).catch((error) => console.log(error));
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -111,6 +114,7 @@ export function AuthProvider({ children }) {
     setUpRecaptcha,
     googleSignIn,
     facebookSignIn,
+    anonymousSignIn,
   };
 
   return (
