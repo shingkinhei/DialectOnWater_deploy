@@ -7,8 +7,10 @@ import {
   RecaptchaVerifier,
   signInWithPhoneNumber,
   GoogleAuthProvider,
+  FacebookAuthProvider,
   signInWithRedirect,
   signInWithPopup,
+  getRedirectResult,
 } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
@@ -25,6 +27,7 @@ export function AuthProvider({ children }) {
   const [signInMessage, setSignInMessage] = useState("");
 
   const google = new GoogleAuthProvider();
+  const facebook = new FacebookAuthProvider();
 
   async function logOut() {
     return await signOut(auth)
@@ -76,10 +79,11 @@ export function AuthProvider({ children }) {
   }
 
   function googleSignIn() {
-    signInWithRedirect(auth, google).catch((error) => {
-      console.log(error);
-      setSignInMessage(error.message);
-    });
+    signInWithRedirect(auth, google);
+  }
+
+  function facebookSignIn() {
+    signInWithRedirect(auth, facebook);
   }
 
   useEffect(() => {
@@ -87,17 +91,6 @@ export function AuthProvider({ children }) {
       if (user) {
         setCurrentUser(user);
         console.log(user);
-
-        if (user.providerData[0].providerId == "google.com") {
-          setDoc(doc(db, "users", user.uid), {
-            displayName: user.displayName,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            createdAt: serverTimestamp(),
-            role: "member",
-            signUpMethod: "Google",
-          });
-        }
       }
 
       setLoading(false);
@@ -117,6 +110,7 @@ export function AuthProvider({ children }) {
     localSignIn,
     setUpRecaptcha,
     googleSignIn,
+    facebookSignIn,
   };
 
   return (

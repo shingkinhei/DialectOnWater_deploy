@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { db } from "@/firebase";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 
 export default function SignInPhone() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -57,7 +57,6 @@ export default function SignInPhone() {
         console.log(err);
         setError(err.message);
       });
-      console.log(response);
       setOtpInfo(response);
       setFlag(true);
     } catch {
@@ -81,24 +80,37 @@ export default function SignInPhone() {
 
     try {
       await otpInfo
-        .confirm(otp)
+        .confirm(otp) // the .confirm methods come from otpInfo, which is an object returned from << THIS above.
+        // then navigate. check video 30:35
         .then((userCredential) => {
-          console.log(userCredential);
-          setDoc(doc(db, "users", userCredential.user.uid), {
-            displayName: null,
-            email: null,
-            phoneNumber: phoneNumber,
-            createdAt: serverTimestamp(),
-            role: "member",
-            signUpMethod: "phone number",
-          });
+          const userExists = doc(db, "users", userCredential.user.uid);
+          async function fetchUser() {
+            // prevent overwriting existing user information
+            try {
+              const userSnap = await getDoc(userExists);
+              if (userSnap.data() !== undefined) {
+                return;
+              } else {
+                setDoc(doc(db, "users", userCredential.user.uid), {
+                  displayName: null,
+                  email: null,
+                  phoneNumber: phoneNumber,
+                  createdAt: serverTimestamp(),
+                  role: "member",
+                  signUpMethod: "phone number",
+                });
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          fetchUser();
         })
         .catch((err) =>
           err.message == "Firebase: Error (auth/invalid-verification-code)."
             ? setError("無效驗證碼，請重新輸入。")
             : setError(err.message)
-        ); // the .confirm methods come from otpInfo, which is an object returned from << THIS above.
-      // then navigate. check video 30:35
+        );
     } catch {
       (error) => setError(error.message);
     }
