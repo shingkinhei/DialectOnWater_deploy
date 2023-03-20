@@ -6,6 +6,9 @@ import {
   signInWithEmailAndPassword,
   RecaptchaVerifier,
   signInWithPhoneNumber,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  signInWithPopup,
 } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
@@ -20,6 +23,8 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [signUpMessage, setSignUpMessage] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
+
+  const google = new GoogleAuthProvider();
 
   async function logOut() {
     return await signOut(auth)
@@ -38,8 +43,10 @@ export function AuthProvider({ children }) {
         setDoc(doc(db, "users", userCredential.user.uid), {
           displayName: displayName,
           email: userCredential.user.email,
-          created_at: serverTimestamp(),
+          phoneNumber: userCredential.user.phoneNumber,
+          createdAt: serverTimestamp(),
           role: "member",
+          signUpMethod: "email/password",
         });
       })
       .then(() => setSignUpMessage("Success!"))
@@ -68,12 +75,31 @@ export function AuthProvider({ children }) {
     return signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier);
   }
 
+  function googleSignIn() {
+    signInWithRedirect(auth, google).catch((error) => {
+      console.log(error);
+      setSignInMessage(error.message);
+    });
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser(user);
         console.log(user);
+
+        if (user.providerData[0].providerId == "google.com") {
+          setDoc(doc(db, "users", user.uid), {
+            displayName: user.displayName,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            createdAt: serverTimestamp(),
+            role: "member",
+            signUpMethod: "Google",
+          });
+        }
       }
+
       setLoading(false);
     });
 
@@ -90,6 +116,7 @@ export function AuthProvider({ children }) {
     setSignInMessage,
     localSignIn,
     setUpRecaptcha,
+    googleSignIn,
   };
 
   return (

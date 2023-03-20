@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
+import { db } from "@/firebase";
+import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 export default function SignInPhone() {
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -36,14 +38,14 @@ export default function SignInPhone() {
     var HKNumber = `+852${phoneNumber}`;
 
     if (phoneNumber == "") {
-      setError("請輸入手機號碼");
+      setError("請輸電話號碼");
       setLoading(false);
       return;
     }
 
     if (phoneNumber.length < 8 || phoneNumber.length > 8) {
       setError(
-        "請輸入8位數字手機號碼。本服務暫只支援香港流動電話服務供應商之用戶。"
+        "請輸入8位數字電話號碼。本服務暫只支援香港流動電話服務供應商之用戶。"
       );
       setLoading(false);
       return;
@@ -80,7 +82,17 @@ export default function SignInPhone() {
     try {
       await otpInfo
         .confirm(otp)
-        .then((userCredentials) => console.log(userCredentials))
+        .then((userCredential) => {
+          console.log(userCredential);
+          setDoc(doc(db, "users", userCredential.user.uid), {
+            displayName: null,
+            email: null,
+            phoneNumber: phoneNumber,
+            createdAt: serverTimestamp(),
+            role: "member",
+            signUpMethod: "phone number",
+          });
+        })
         .catch((err) =>
           err.message == "Firebase: Error (auth/invalid-verification-code)."
             ? setError("無效驗證碼，請重新輸入。")
@@ -99,14 +111,14 @@ export default function SignInPhone() {
       {!flag && (
         <>
           <Typography variant="h4" color="blue-gray">
-            請輸入手機號碼
+            請輸入電話號碼
           </Typography>
           <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
             <div className="mb-4 flex flex-col gap-6">
               <Input
                 type="number"
                 size="lg"
-                label="手機號碼"
+                label="電話號碼"
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 value={phoneNumber}
                 required
