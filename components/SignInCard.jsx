@@ -16,8 +16,14 @@ export default function SignInCard() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { logOut, currentUser, localSignIn, signInMessage, setSignInMessage } =
-    useAuth();
+  const {
+    logOut,
+    currentUser,
+    signInMessage,
+    setSignInMessage,
+    localSignIn,
+    googleSignIn,
+  } = useAuth();
 
   useEffect(() => {
     signInMessage && setError("電郵地址或密碼錯誤。");
@@ -53,6 +59,11 @@ export default function SignInCard() {
     logOut();
   }
 
+  function handleGoogleSignIn(e) {
+    e.preventDefault();
+    googleSignIn();
+  }
+
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
@@ -66,7 +77,7 @@ export default function SignInCard() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             required
-            error={error ? true : false}
+            error={error && error !== "請輸入密碼。" ? true : false}
           />
           <Input
             type="password"
@@ -75,7 +86,7 @@ export default function SignInCard() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
-            error={error ? true : false}
+            error={error && error !== "請輸入電郵地址。" ? true : false}
           />
         </div>
         {error && (
@@ -102,6 +113,21 @@ export default function SignInCard() {
           >
             電話號碼
           </Button>
+          <Button
+            onClick={handleGoogleSignIn}
+            className="mt-6 text-md"
+            fullWidth
+            disabled={loading ? true : false}
+          >
+            Google
+          </Button>
+          <Button
+            className="mt-6 text-md"
+            fullWidth
+            disabled={loading ? true : false}
+          >
+            Facebook
+          </Button>
         </fieldset>
         <Button
           onClick={handleSignOut}
@@ -113,7 +139,7 @@ export default function SignInCard() {
         <Typography color="gray" className="mt-4 text-center font-normal">
           未有帳戶？{" "}
           <a
-            href="#"
+            href="/sign-up"
             className="font-medium text-blue-500 transition-colors hover:text-blue-700"
           >
             註冊

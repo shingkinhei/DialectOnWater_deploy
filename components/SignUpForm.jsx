@@ -180,7 +180,7 @@ export default function SignUpForm() {
         <Typography color="gray" className="mt-4 text-center font-normal">
           已有帳戶？{" "}
           <a
-            href="#"
+            href="/sign-in"
             className="font-medium text-blue-500 transition-colors hover:text-blue-700"
           >
             登入
