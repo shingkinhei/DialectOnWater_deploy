@@ -7,7 +7,6 @@ import {
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 import { useAuth } from "@/contexts/AuthContext";
 import { auth, db } from "@/firebase";
 import { getDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
@@ -23,7 +22,6 @@ export default function SignInCard() {
 
   const router = useRouter();
   const {
-    logOut,
     currentUser,
     signInMessage,
     setSignInMessage,
@@ -129,11 +127,6 @@ export default function SignInCard() {
     anonymousSignIn();
   }
 
-  function handleSignOut(e) {
-    e.preventDefault();
-    logOut();
-  }
-
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
@@ -217,13 +210,6 @@ export default function SignInCard() {
             訪客模式
           </Button>
         </fieldset>
-        {/* <Button
-          onClick={handleSignOut}
-          className="mt-6 text-md bg-black shadow-none"
-          fullWidth
-        >
-          登出
-        </Button> */}
         <Typography color="gray" className="mt-4 text-center font-normal">
           未有帳戶？{" "}
           <span

@@ -1,6 +1,13 @@
 import Head from "next/head";
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import SignOutButton from "@/components/SignOutButton";
 
 export default function Home() {
+  const { currentUser } = useAuth();
+  const router = useRouter();
+
   return (
     <>
       <Head>
@@ -64,7 +71,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-
+        <SignOutButton />
         {/*dialect-list*/}
         <div className="dialect-list w-full p-6 overflow-y-auto flex flex-col gap-5">
           <a
