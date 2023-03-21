@@ -1,6 +1,9 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import LoginCard from "@/components/SignUpForm";
+import { Button } from "@material-tailwind/react";
+import SignUpForm from "@/components/SignUpForm";
+// import iconPlay from "images/icon-play.svg";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,8 +16,189 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-screen h-screen flex items-center justify-center">
-        <h1>Hello world!</h1>
+      <main className="main index w-screen h-screen flex items-center flex-col place-content-start relative">
+        {/*search-bar*/}
+        <div className="search-bar w-full flex flex-col place-content-between p-6">
+          {/*top-bar*/}
+          <div className="top-bar min-w-full flex place-content-between">
+            <div>
+              <h1 className="text-4xl font-extrabold	">你好</h1>
+              <span className="user-name text-6xl font-extrabold	">Harry</span>
+            </div>
+            <div className="self-end">
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="18.1452"
+                  cy="18.1452"
+                  r="15.1452"
+                  stroke="#154058"
+                  stroke-width="6"
+                />
+                <path
+                  d="M45 45L31.2097 31.2097"
+                  stroke="#154058"
+                  stroke-width="6"
+                  stroke-linecap="round"
+                />
+              </svg>
+            </div>
+          </div>
+          {/* searching-bar*/}
+          <div className="min-w-full flex mt-5 gap-2">
+            <div className="search-location">
+              <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="a">所有地區</option>
+                <option value="b">西貢</option>
+                <option value="c">香港仔</option>
+                <option value="d">銅鑼灣</option>
+              </select>
+            </div>
+            <div className="search-type">
+              <select className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-700 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
+                <option value="a">所有分類</option>
+                <option value="b">出海專用詞</option>
+                <option value="c">生活用語</option>
+                <option value="d">口音</option>
+                <option value="e">片語</option>
+                <option value="f">口訣</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/*dialect-list*/}
+        <div className="dialect-list w-full p-6 overflow-y-auto flex flex-col gap-5">
+          <a
+            href="#"
+            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          >
+            <h2 className="text-4xl">開車</h2>
+            <svg
+              width="98"
+              height="98"
+              viewBox="0 0 98 98"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="49" cy="49" r="49" fill="white" />
+              <path
+                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
+                fill="#1D82BB"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="#"
+            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          >
+            <h2 className="text-4xl">開車</h2>
+            <svg
+              width="98"
+              height="98"
+              viewBox="0 0 98 98"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="49" cy="49" r="49" fill="white" />
+              <path
+                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
+                fill="#1D82BB"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="#"
+            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          >
+            <h2 className="text-4xl">開車</h2>
+            <svg
+              width="98"
+              height="98"
+              viewBox="0 0 98 98"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="49" cy="49" r="49" fill="white" />
+              <path
+                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
+                fill="#1D82BB"
+              />
+            </svg>
+          </a>
+
+          <a
+            href="#"
+            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+          >
+            <h2 className="text-4xl">開車</h2>
+            <svg
+              width="98"
+              height="98"
+              viewBox="0 0 98 98"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="49" cy="49" r="49" fill="white" />
+              <path
+                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
+                fill="#1D82BB"
+              />
+            </svg>
+          </a>
+        </div>
+
+        {/* menu */}
+        <div className="menu absolute bottom-0 left-0 z-50 w-full flex p-3 flex place-content-around">
+          {/* btn-home */}
+          <a>
+            <svg
+              width="43"
+              height="29"
+              viewBox="0 0 43 29"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M20.935 0.386888C21.2756 0.153681 21.7244 0.153681 22.065 0.386888L37.4543 10.9249C38.2653 11.4803 37.8723 12.75 36.8893 12.75H6.11073C5.12773 12.75 4.73467 11.4803 5.54574 10.9249L20.935 0.386888Z"
+                fill="#989FAA"
+              />
+              <rect
+                x="10.75"
+                y="10"
+                width="22"
+                height="19"
+                rx="1"
+                fill="#989FAA"
+              />
+            </svg>
+          </a>
+
+          <a>
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 28 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="14.6888" cy="8" r="8" fill="#989FAA" />
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M27.8099 25.8435C28.0931 26.9843 27.1593 28 25.9839 28H1.87714C0.701702 28 -0.232105 26.9843 0.0510742 25.8435C1.59695 19.6158 7.22469 15 13.9305 15C20.6363 15 26.2641 19.6158 27.8099 25.8435Z"
+                fill="#989FAA"
+              />
+            </svg>
+          </a>
+        </div>
       </main>
     </>
   );
