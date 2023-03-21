@@ -13,6 +13,7 @@ import { auth, db } from "@/firebase";
 import { getDoc, doc, serverTimestamp, setDoc } from "firebase/firestore";
 
 import { getRedirectResult } from "firebase/auth";
+import { BsGoogle, BsFacebook, BsFillPhoneFill } from "react-icons/bs";
 
 export default function SignInCard() {
   const [email, setEmail] = useState("");
@@ -175,30 +176,38 @@ export default function SignInCard() {
           <legend className="mx-auto px-4 text-gray-700 font-bold">
             或用以下方式登入
           </legend>
-          <Button
-            onClick={() => router.push("/sign-in/phone")}
-            className="mt-6 text-md"
-            fullWidth
-            disabled={loading ? true : false}
-          >
-            電話號碼
-          </Button>
-          <Button
-            onClick={handleGoogleSignIn}
-            className="mt-6 text-md"
-            fullWidth
-            disabled={loading ? true : false}
-          >
-            Google
-          </Button>
-          <Button
-            onClick={handleFacebookSignIn}
-            className="mt-6 text-md"
-            fullWidth
-            disabled={loading ? true : false}
-          >
-            Facebook
-          </Button>
+          <div className="w-[100%] flex justify-between">
+            <Button
+              onClick={() => router.push("/sign-in/phone")}
+              className="px-0 mt-6 text-md w-[32%] flex items-center justify-center relative"
+              disabled={loading ? true : false}
+            >
+              <BsFillPhoneFill className="text-2xl" />
+              <div className="absolute top-0 w-[100%] h-[100%] bg-blue-700 bg-opacity-90 flex items-center justify-center rounded-lg opacity-0 hover:opacity-100 ease-in-out duration-150">
+                電話號碼
+              </div>
+            </Button>
+            <Button
+              onClick={handleGoogleSignIn}
+              className="px-0 mt-6 text-md w-[32%] flex items-center justify-center relative"
+              disabled={loading ? true : false}
+            >
+              <BsGoogle className="text-2xl" />
+              <div className="absolute top-0 w-[100%] h-[100%] bg-blue-700 bg-opacity-90 flex items-center justify-center rounded-lg opacity-0 hover:opacity-100 ease-in-out duration-150">
+                Google
+              </div>
+            </Button>
+            <Button
+              onClick={handleFacebookSignIn}
+              className="px-0 mt-6 text-md w-[32%] flex items-center justify-center relative"
+              disabled={loading ? true : false}
+            >
+              <BsFacebook className="text-2xl" />
+              <div className="absolute top-0 w-[100%] h-[100%] bg-blue-700 bg-opacity-90 flex items-center justify-center rounded-lg opacity-0 hover:opacity-100 ease-in-out duration-150">
+                Facebook
+              </div>
+            </Button>
+          </div>
           <Button
             onClick={handleAnonymousSignIn}
             className="mt-6 text-md"
@@ -208,13 +217,13 @@ export default function SignInCard() {
             訪客模式
           </Button>
         </fieldset>
-        <Button
+        {/* <Button
           onClick={handleSignOut}
           className="mt-6 text-md bg-black shadow-none"
           fullWidth
         >
           登出
-        </Button>
+        </Button> */}
         <Typography color="gray" className="mt-4 text-center font-normal">
           未有帳戶？{" "}
           <span
