@@ -12,6 +12,7 @@ import {
   signInAnonymously,
 } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import { useRouter } from "next/router";
 
 const AuthContext = React.createContext();
 
@@ -24,6 +25,8 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [signUpMessage, setSignUpMessage] = useState("");
   const [signInMessage, setSignInMessage] = useState("");
+
+  const router = useRouter();
 
   const google = new GoogleAuthProvider();
   const facebook = new FacebookAuthProvider();
@@ -96,13 +99,14 @@ export function AuthProvider({ children }) {
         console.log(user);
       }
 
+      console.log(router.pathname);
       setLoading(false);
     });
-
     return unsubscribe;
   }, []);
 
   const value = {
+    loading,
     currentUser,
     logOut,
     signup,
