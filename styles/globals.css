@@ -9,3 +9,47 @@
     margin: 0;
   }
 }
+
+#__next{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+.main {
+    width: 375px;
+    height: 667px;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.search-bar{
+    background-color: #ECECEC;
+}
+
+.search-location{
+    flex: 1;
+}
+
+.search-type{
+    flex:4;
+}
+
+.menu{
+    background-color: #ECECEC;
+}
+
+.index{
+    background-color: #FFFFFF;
+}
+
+.landing{
+    background-image: url(../pages/images/landingBg.png);
+    background-size: cover;
+}
+
