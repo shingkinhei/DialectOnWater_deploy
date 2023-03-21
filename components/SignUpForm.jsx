@@ -6,18 +6,8 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import {
-  addDoc,
-  collection,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-  doc,
-} from "firebase/firestore";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function SignUpForm() {
   const [displayName, setDisplayName] = useState("");
@@ -26,90 +16,128 @@ export default function SignUpForm() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
+  const { signup, signUpMessage, setSignUpMessage } = useAuth();
   const router = useRouter();
+
+  useEffect(() => {
+    setSignUpMessage("");
+  }, []);
+
+  useEffect(() => {
+    var count = 6;
+    function countDown() {
+      setLoading(true);
+      var counting = setInterval(() => {
+        count--;
+        setSuccess(`成功建立帳戶。${count}秒後重新導向至主頁。`);
+        if (count === 0) clearInterval(counting);
+      }, 1000);
+    }
+
+    signUpMessage == "Success!"
+      ? countDown()
+      : // setSuccess(
+      //     `Account created successfully. Redirecting in ${count} seconds.`
+      //   )
+      signUpMessage == "Firebase: Error (auth/email-already-in-use)."
+      ? setError("電郵地址已被註冊。")
+      : setError(signUpMessage);
+  }, [signUpMessage]);
 
   function handleSignUp(e) {
     e.preventDefault();
+    setLoading(true);
+    setSignUpMessage("");
     setError("");
     setSuccess("");
-    {
-      password == confirmPassword
-        ? displayName !== ""
-          ? createUserWithEmailAndPassword(auth, email, password)
-              .then((userCredential) => {
-                console.log(userCredential);
-                // router.push("/dashboard");
-                setDoc(doc(db, "users", userCredential.user.uid), {
-                  // get database
-                  displayName: displayName,
-                  email: userCredential.user.email,
-                  created_at: serverTimestamp(),
-                  role: "member",
-                });
-                setDisplayName("");
-                setEmail("");
-                setPassword("");
-                setConfirmPassword("");
-                setSuccess("Account created successfully.");
-              })
-              .catch((error) => {
-                console.log(error.message);
-                {
-                  error.message ===
-                  "Firebase: Error (auth/email-already-in-use)."
-                    ? setError("Account already exists.")
-                    : setError(error.message);
-                }
-              })
-          : setError("Please fill in your name.")
-        : setError("Passwords do not match.");
+
+    if (displayName == "") {
+      setError("請輸入姓名。");
+      setLoading(false);
+      return;
     }
+
+    if (email == "") {
+      setError("請輸入電郵地址。");
+      setLoading(false);
+      return;
+    }
+
+    if (password == "" || confirmPassword == "") {
+      setError("請輸入密碼。");
+      setLoading(false);
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setError("兩次密碼不相符。");
+      setLoading(false);
+      return;
+    }
+
+    signup(email, password, displayName);
+    setPassword("");
+    setConfirmPassword("");
+    setLoading(false);
   }
 
   return (
     <Card color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
-        Sign Up
+        建立帳戶
       </Typography>
       <Typography color="gray" className="mt-1 font-normal">
-        Enter your details to register.
+        請輸入以下資訊。
       </Typography>
       <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
         <div className="mb-4 flex flex-col gap-6">
           <Input
             size="lg"
-            label="Name"
+            label="姓名"
             onChange={(e) => setDisplayName(e.target.value)}
             value={displayName}
             required
-            error={error == "Please fill in your name." ? true : false}
+            error={error == "請輸入姓名。" ? true : false}
           />
           <Input
             size="lg"
-            label="Email"
+            label="電郵地址"
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             required
-            error={error == "Account already exists." ? true : false}
+            error={
+              error == "電郵地址已被註冊。" || error == "請輸入電郵地址。"
+                ? true
+                : false
+            }
           />
           <Input
             type="password"
             size="lg"
-            label="Password"
+            label="密碼"
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
-            error={error == "Passwords do not match." ? true : false}
+            error={
+              error == "兩次密碼不相符。" || error == "請輸入密碼。"
+                ? true
+                : false
+            }
           />
           <Input
             type="password"
             size="lg"
-            label="Confirm Password"
+            label="確認密碼"
             onChange={(e) => setConfirmPassword(e.target.value)}
             value={confirmPassword}
             required
-            error={error == "Passwords do not match." ? true : false}
+            error={
+              error == "兩次密碼不相符。" || error == "請輸入密碼。"
+                ? true
+                : false
+            }
           />
         </div>
         {/* <Checkbox
@@ -140,17 +168,22 @@ export default function SignUpForm() {
             {success}
           </Typography>
         )}
-        <Button className="mt-6" fullWidth onClick={handleSignUp}>
-          Register
+        <Button
+          className="mt-6 text-md"
+          fullWidth
+          onClick={handleSignUp}
+          disabled={loading ? true : false}
+        >
+          建立
         </Button>
         <Typography color="gray" className="mt-4 text-center font-normal">
-          Already have an account?{" "}
-          <a
-            href="#"
-            className="font-medium text-blue-500 transition-colors hover:text-blue-700"
+          已有帳戶？{" "}
+          <span
+            onClick={() => router.push("/sign-in")}
+            className="font-medium text-blue-500 transition-colors hover:text-blue-700 cursor-pointer"
           >
-            Sign In
-          </a>
+            登入
+          </span>
         </Typography>
       </form>
     </Card>

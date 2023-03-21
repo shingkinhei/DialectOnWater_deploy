@@ -8,6 +8,7 @@ import SignUpForm from "@/components/SignUpForm";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+
   return (
     <>
       <Head>
