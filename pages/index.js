@@ -1,6 +1,8 @@
 import Head from "next/head";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Index() {
+  const { currentUser } = useAuth();
   return (
     <>
       <Head>
@@ -10,6 +12,7 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
+        {currentUser && <div>Logged in.</div>}
         <h1 className="text-white">Hello World!</h1>
       </main>
     </>
