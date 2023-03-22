@@ -1,13 +1,19 @@
 import Head from "next/head";
-import { useAuth } from "@/contexts/AuthContext";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import Menu from "@/components/Menu";
+import DialectList from "@/components/DialectList"
 import SignOutButton from "@/components/SignOutButton";
 
+import { useAuth } from "@/contexts/AuthContext";
+import { useRouter } from "next/router";
+
 export default function Home() {
-  const { currentUser } = useAuth();
+  const { currentUser } = useAuth(); 
   const router = useRouter();
 
+
+  // if currentUser = "admin"{
+
+  // };
   return (
     <>
       <Head>
@@ -16,9 +22,9 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="main index w-screen h-screen flex items-center flex-col place-content-start relative">
+      <main className="overflow-hidden bg-white rounded-md bg-white  w-full h-full lg:h-4/5 lg:w-4/5 shadow-lg flex items-center flex-col place-content-start relative">
         {/*search-bar*/}
-        <div className="search-bar w-full flex flex-col place-content-between p-6">
+        <div className="bg-blue-100 w-full flex flex-col place-content-between p-6">
           {/*top-bar*/}
           <div className="top-bar min-w-full flex place-content-between">
             <div>
@@ -71,134 +77,11 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <SignOutButton />
+        <SignOutButton/>
         {/*dialect-list*/}
-        <div className="dialect-list w-full p-6 overflow-y-auto flex flex-col gap-5">
-          <a
-            href="#"
-            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-          >
-            <h2 className="text-4xl">開車</h2>
-            <svg
-              width="98"
-              height="98"
-              viewBox="0 0 98 98"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="49" cy="49" r="49" fill="white" />
-              <path
-                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
-                fill="#1D82BB"
-              />
-            </svg>
-          </a>
-
-          <a
-            href="#"
-            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-          >
-            <h2 className="text-4xl">開車</h2>
-            <svg
-              width="98"
-              height="98"
-              viewBox="0 0 98 98"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="49" cy="49" r="49" fill="white" />
-              <path
-                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
-                fill="#1D82BB"
-              />
-            </svg>
-          </a>
-
-          <a
-            href="#"
-            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-          >
-            <h2 className="text-4xl">開車</h2>
-            <svg
-              width="98"
-              height="98"
-              viewBox="0 0 98 98"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="49" cy="49" r="49" fill="white" />
-              <path
-                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
-                fill="#1D82BB"
-              />
-            </svg>
-          </a>
-
-          <a
-            href="#"
-            class=" block min-w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
-          >
-            <h2 className="text-4xl">開車</h2>
-            <svg
-              width="98"
-              height="98"
-              viewBox="0 0 98 98"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="49" cy="49" r="49" fill="white" />
-              <path
-                d="M77 45.5359C79.6667 47.0755 79.6667 50.9245 77 52.4641L38 74.9808C35.3333 76.5204 32 74.5959 32 71.5167L32 26.4833C32 23.4041 35.3333 21.4796 38 23.0192L77 45.5359Z"
-                fill="#1D82BB"
-              />
-            </svg>
-          </a>
-        </div>
-
+        <DialectList />
         {/* menu */}
-        <div className="menu absolute bottom-0 left-0 z-50 w-full flex p-3 flex place-content-around">
-          {/* btn-home */}
-          <a>
-            <svg
-              width="43"
-              height="29"
-              viewBox="0 0 43 29"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20.935 0.386888C21.2756 0.153681 21.7244 0.153681 22.065 0.386888L37.4543 10.9249C38.2653 11.4803 37.8723 12.75 36.8893 12.75H6.11073C5.12773 12.75 4.73467 11.4803 5.54574 10.9249L20.935 0.386888Z"
-                fill="#989FAA"
-              />
-              <rect
-                x="10.75"
-                y="10"
-                width="22"
-                height="19"
-                rx="1"
-                fill="#989FAA"
-              />
-            </svg>
-          </a>
-
-          <a>
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 28 28"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <circle cx="14.6888" cy="8" r="8" fill="#989FAA" />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M27.8099 25.8435C28.0931 26.9843 27.1593 28 25.9839 28H1.87714C0.701702 28 -0.232105 26.9843 0.0510742 25.8435C1.59695 19.6158 7.22469 15 13.9305 15C20.6363 15 26.2641 19.6158 27.8099 25.8435Z"
-                fill="#989FAA"
-              />
-            </svg>
-          </a>
-        </div>
+        <Menu />
       </main>
     </>
   );
