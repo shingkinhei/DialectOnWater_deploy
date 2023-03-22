@@ -10,7 +10,7 @@ export default function SignUp() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="w-screen h-screen flex items-center justify-center">
+      <main className="bg-white	p-6 rounded-md flex items-center justify-center">
         <SignUpForm />
       </main>
     </>
