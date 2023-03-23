@@ -4,7 +4,13 @@ import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   const protectedRoutes = ["/home"];
-  const publicRoutes = ["/", "/sign-in", "/sign-in/phone", "/sign-up"];
+  const publicRoutes = [
+    "/",
+    "/sign-in",
+    "/sign-in/phone",
+    "/sign-up",
+    "/reset-password",
+  ];
 
   return (
     <AuthProvider>

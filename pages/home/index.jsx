@@ -1,19 +1,15 @@
 import Head from "next/head";
 import Menu from "@/components/Menu";
-import DialectList from "@/components/DialectList"
+import DialectList from "@/components/DialectList";
 import SignOutButton from "@/components/SignOutButton";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
 
 export default function Home() {
-  const { currentUser } = useAuth(); 
+  const { currentUser } = useAuth();
   const router = useRouter();
 
-
-  // if currentUser = "admin"{
-
-  // };
   return (
     <>
       <Head>
@@ -77,7 +73,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <SignOutButton/>
+        <SignOutButton />
         {/*dialect-list*/}
         <DialectList />
         {/* menu */}

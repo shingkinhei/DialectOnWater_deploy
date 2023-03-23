@@ -10,6 +10,7 @@ import {
   FacebookAuthProvider,
   signInWithRedirect,
   signInAnonymously,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { doc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -92,6 +93,14 @@ export function AuthProvider({ children }) {
     signInAnonymously(auth).catch((error) => console.log(error));
   }
 
+  async function resetPassword(email) {
+    await sendPasswordResetEmail(auth, email)
+      .then(() => setSignInMessage("Success!"))
+      .catch((error) => setSignInMessage(error.message));
+    // .then((response) => setSignInMessage(response))
+    // .catch((error) => setSignInMessage(error));
+  }
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
@@ -119,6 +128,7 @@ export function AuthProvider({ children }) {
     googleSignIn,
     facebookSignIn,
     anonymousSignIn,
+    resetPassword,
   };
 
   return (
