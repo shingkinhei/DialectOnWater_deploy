@@ -89,6 +89,10 @@ export default function SignInCard() {
     //   setError("無此帳戶紀錄。");
   }, [signInMessage]);
 
+  useEffect(() => {
+    setError("");
+  }, []);
+
   function handleLocalSignIn(e) {
     e.preventDefault();
     setSignInMessage("");
@@ -140,7 +144,12 @@ export default function SignInCard() {
             onChange={(e) => setEmail(e.target.value)}
             value={email}
             required
-            error={error && error == "請輸入電郵地址。" ? true : false}
+            error={
+              error &&
+              (error == "請輸入電郵地址。" || error == "電郵地址或密碼錯誤。")
+                ? true
+                : false
+            }
           />
           <Input
             type="password"
@@ -149,7 +158,12 @@ export default function SignInCard() {
             onChange={(e) => setPassword(e.target.value)}
             value={password}
             required
-            error={error && error == "請輸入密碼。" ? true : false}
+            error={
+              error &&
+              (error == "請輸入密碼。" || error == "電郵地址或密碼錯誤。")
+                ? true
+                : false
+            }
           />
         </div>
         {error && (
@@ -165,6 +179,14 @@ export default function SignInCard() {
         >
           登入
         </Button>
+        <Typography color="gray" className="mt-4 text-center font-normal">
+          <span
+            onClick={() => router.push("/reset-password")}
+            className="font-medium text-blue-500 transition-colors hover:text-blue-700 cursor-pointer"
+          >
+            忘記密碼
+          </span>
+        </Typography>
         <fieldset className="mt-6 border-t border-slate-300">
           <legend className="mx-auto px-4 text-gray-700 font-bold">
             或用以下方式登入
@@ -220,11 +242,6 @@ export default function SignInCard() {
           </span>
         </Typography>
       </form>
-      {currentUser && (
-        <div>
-          {currentUser.email} {currentUser.phoneNumber}
-        </div>
-      )}
     </Card>
   );
 }
