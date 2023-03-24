@@ -7,7 +7,7 @@ export default function DialectList() {
     return (
         <div className="dialect-list w-full p-6 overflow-y-auto flex flex-wrap gap-5">
             <div
-                className=" bg1 block lg:w-2/6 md:w-3/6 w-full p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+                className="dialect-list-card bg1 block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
             >
                 
                 <div className="flex items-center justify-between mb-3">
