@@ -1,5 +1,6 @@
 import SignInCard from "@/components/SignInCard";
 import Head from "next/head";
+import Image from "next/image";
 
 export default function SignUp() {
   return (
@@ -10,7 +11,8 @@ export default function SignUp() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="bg-white	p-6 rounded-md flex items-center justify-center">
+      <main className="bg-white	p-6 rounded-md flex flex-col items-center justify-center">
+        <Image src="/logo.jpg" alt="這是註解" width={200} height={200} />
         <SignInCard />
       </main>
     </>
