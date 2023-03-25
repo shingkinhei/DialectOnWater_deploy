@@ -3,6 +3,7 @@ import {
   Chip
 } from "@material-tailwind/react";
 
+
 export default function DialectList() {
     return (
         <div className="dialect-list w-full p-6 overflow-y-auto flex flex-wrap gap-5">
@@ -30,7 +31,7 @@ export default function DialectList() {
                 </div>
                 <hr />
                 <div className="mt-2">
-                    <Chip value="西頁" className="text-lg rounded-full text-blue-900 mr-3" variant="filled" />
+                    <Chip value="西貢" className="text-lg rounded-full text-blue-900 mr-3" variant="filled" />
                     <span variant="h4">出海專用詞</span>
                 </div>
             </div>
