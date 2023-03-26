@@ -7,7 +7,6 @@ import { storage } from "../firebase";
 import { ref, uploadBytes } from "firebase/storage"
 
 import { useState, useRef } from "react";
-import { async } from "@firebase/util";
 const mimeType = "audio/webm";
 
 export default function AddNewitem() {
