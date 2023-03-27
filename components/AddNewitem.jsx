@@ -12,6 +12,8 @@ import { doc, setDoc } from "firebase/firestore";
 import { collection, addDoc,serverTimestamp} from "firebase/firestore"; 
 
 
+import { useState, useRef } from "react";
+
 const mimeType = "audio/webm";
 
 export default function AddNewitem() {
