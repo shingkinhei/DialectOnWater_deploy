@@ -2,14 +2,53 @@ import Head from "next/head";
 import Menu from "@/components/Menu";
 import DialectList from "@/components/DialectList";
 import SignOutButton from "@/components/SignOutButton";
-import ItemDetailPage from "@/components/ItemDetailPage"
+import ItemDetailPage from "@/components/ItemDetailPage";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
+import { db } from "@/firebase";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const { currentUser } = useAuth();
   const router = useRouter();
+
+  const [dialects, setDialects] = useState([]);
+  const [origin, setOrigin] = useState("所有地區");
+  const [dialectType, setDialectType] = useState("所有分類");
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "dialect"),
+          where("origin", "==", origin),
+          orderBy("timeStamp", "desc")
+        ),
+        (snapshot) => {
+          setDialects(snapshot.docs);
+        }
+      ),
+    [origin, dialectType]
+  );
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, "dialect"), orderBy("timeStamp", "desc")),
+        (snapshot) => {
+          setDialects(snapshot.docs);
+        }
+      ),
+    []
+  );
 
   return (
     <>
@@ -55,29 +94,37 @@ export default function Home() {
           {/* searching-bar*/}
           <div className="min-w-full flex mt-5 gap-2">
             <div className="search-location">
-              <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                <option value="a">所有地區</option>
-                <option value="b">西貢</option>
-                <option value="c">香港仔</option>
-                <option value="d">銅鑼灣</option>
+              <select
+                onChange={(e) => setOrigin(e.target.value)}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              >
+                <option value="所有地區">所有地區</option>
+                <option value="西貢">西貢</option>
+                <option value="香港仔">香港仔</option>
+                <option value="銅鑼灣">銅鑼灣</option>
               </select>
             </div>
             <div className="search-type">
-              <select className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-700 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer">
-                <option value="a">所有分類</option>
-                <option value="b">出海專用詞</option>
-                <option value="c">生活用語</option>
-                <option value="d">口音</option>
-                <option value="e">片語</option>
-                <option value="f">口訣</option>
+              <select
+                onChange={(e) => setDialectType(e.target.value)}
+                className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-700 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
+              >
+                <option value="所有分類">所有分類</option>
+                <option value="出海專用詞">出海專用詞</option>
+                <option value="生活用語">生活用語</option>
+                <option value="口音">口音</option>
+                <option value="片語">片語</option>
+                <option value="口訣">口訣</option>
               </select>
             </div>
           </div>
         </div>
-        <SignOutButton/>
+        <SignOutButton />
         {/* <ItemDetailPage/> */}
         {/*dialect-list*/}
-        <DialectList />
+        {dialects.map((dialect) => (
+          <DialectList key={dialect.id} id={dialect.id} dialect={dialect} />
+        ))}
         {/* menu */}
         <Menu />
       </main>

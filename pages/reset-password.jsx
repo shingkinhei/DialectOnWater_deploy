@@ -47,7 +47,7 @@ export default function resetPasswordPage() {
   }
 
   return (
-    <Card color="transparent" shadow={false}>
+    <Card className="bg-white	p-6 rounded-md" color="transparent" shadow={false}>
       <Typography variant="h4" color="blue-gray">
         重設密碼
       </Typography>
