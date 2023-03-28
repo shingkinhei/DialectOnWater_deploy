@@ -20,16 +20,20 @@ export default function Home() {
   const { currentUser } = useAuth();
   const router = useRouter();
 
+  const originArray = ["西貢", "香港仔", "銅鑼灣"];
+  const typeArray = ["出海專用詞", "生活用語", "口音", "片語", "口訣"];
+
   const [dialects, setDialects] = useState([]);
-  const [origin, setOrigin] = useState("所有地區");
-  const [dialectType, setDialectType] = useState("所有分類");
+  const [origin, setOrigin] = useState(originArray);
+  const [dialectType, setDialectType] = useState(typeArray);
 
   useEffect(
     () =>
       onSnapshot(
         query(
           collection(db, "dialect"),
-          where("origin", "==", origin),
+          where("origin", "in", origin),
+          where("dialectType", "in", dialectType),
           orderBy("timeStamp", "desc")
         ),
         (snapshot) => {
@@ -37,17 +41,6 @@ export default function Home() {
         }
       ),
     [origin, dialectType]
-  );
-
-  useEffect(
-    () =>
-      onSnapshot(
-        query(collection(db, "dialect"), orderBy("timeStamp", "desc")),
-        (snapshot) => {
-          setDialects(snapshot.docs);
-        }
-      ),
-    []
   );
 
   return (
@@ -95,7 +88,15 @@ export default function Home() {
           <div className="min-w-full flex mt-5 gap-2">
             <div className="search-location">
               <select
-                onChange={(e) => setOrigin(e.target.value)}
+                onChange={(e) => {
+                  e.target.value == "所有地區"
+                    ? setOrigin(originArray)
+                    : setOrigin(
+                        originArray.filter(
+                          (originItem) => originItem == e.target.value
+                        )
+                      );
+                }}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option value="所有地區">所有地區</option>
@@ -106,7 +107,13 @@ export default function Home() {
             </div>
             <div className="search-type">
               <select
-                onChange={(e) => setDialectType(e.target.value)}
+                onChange={(e) => {
+                  e.target.value == "所有分類"
+                    ? setDialectType(typeArray)
+                    : setDialectType(
+                        typeArray.filter((type) => type == e.target.value)
+                      );
+                }}
                 className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-700 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
                 <option value="所有分類">所有分類</option>
