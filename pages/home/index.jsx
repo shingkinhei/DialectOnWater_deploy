@@ -16,24 +16,20 @@ import {
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
 
-export default function Home() {
+export default function Home( ) {
   const { currentUser } = useAuth();
   const router = useRouter();
 
-  const originArray = ["西貢", "香港仔", "銅鑼灣"];
-  const typeArray = ["出海專用詞", "生活用語", "口音", "片語", "口訣"];
-
   const [dialects, setDialects] = useState([]);
-  const [origin, setOrigin] = useState(originArray);
-  const [dialectType, setDialectType] = useState(typeArray);
+  const [origin, setOrigin] = useState("所有地區");
+  const [dialectType, setDialectType] = useState("所有分類");
 
   useEffect(
     () =>
       onSnapshot(
         query(
           collection(db, "dialect"),
-          where("origin", "in", origin),
-          where("dialectType", "in", dialectType),
+          where("origin", "==", origin),
           orderBy("timeStamp", "desc")
         ),
         (snapshot) => {
@@ -41,6 +37,17 @@ export default function Home() {
         }
       ),
     [origin, dialectType]
+  );
+
+  useEffect(
+    () =>
+      onSnapshot(
+        query(collection(db, "dialect"), orderBy("timeStamp", "desc")),
+        (snapshot) => {
+          setDialects(snapshot.docs);
+        }
+      ),
+    []
   );
 
   return (
@@ -51,18 +58,14 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="overflow-hidden bg-white rounded-md bg-white  w-full h-full lg:h-4/5 lg:w-4/5 shadow-lg flex items-center flex-col place-content-start relative">
+      <main className="overflow-hidden bg-white rounded-md bg-white  w-full h-full lg:h-full lg:w-4/5 shadow-lg flex items-center flex-col place-content-start relative">
         {/*search-bar*/}
         <div className="bg-blue-100 w-full flex flex-col place-content-between p-6">
           {/*top-bar*/}
           <div className="top-bar min-w-full flex place-content-between">
             <div>
               <h1 className="text-4xl font-extrabold	">你好</h1>
-              <span className="user-name text-6xl font-extrabold	">
-                {currentUser.displayName
-                  ? currentUser.displayName
-                  : currentUser.phoneNumber}
-              </span>
+              <span className="user-name text-6xl font-extrabold	">Harry</span>
             </div>
             <div className="self-end">
               <svg
@@ -92,40 +95,26 @@ export default function Home() {
           <div className="min-w-full flex mt-5 gap-2">
             <div className="search-location">
               <select
-                onChange={(e) => {
-                  e.target.value == "所有地區"
-                    ? setOrigin(originArray)
-                    : setOrigin(
-                        originArray.filter(
-                          (originItem) => originItem == e.target.value
-                        )
-                      );
-                }}
+                onChange={(e) => setOrigin(e.target.value)}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option value="所有地區">所有地區</option>
-                <option value={originArray[0]}>西貢</option>
-                <option value={originArray[1]}>香港仔</option>
-                <option value={originArray[2]}>銅鑼灣</option>
+                <option value="西貢">西貢</option>
+                <option value="香港仔">香港仔</option>
+                <option value="銅鑼灣">銅鑼灣</option>
               </select>
             </div>
             <div className="search-type">
               <select
-                onChange={(e) => {
-                  e.target.value == "所有分類"
-                    ? setDialectType(typeArray)
-                    : setDialectType(
-                        typeArray.filter((type) => type == e.target.value)
-                      );
-                }}
+                onChange={(e) => setDialectType(e.target.value)}
                 className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-700 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
                 <option value="所有分類">所有分類</option>
-                <option value={typeArray[0]}>出海專用詞</option>
-                <option value={typeArray[1]}>生活用語</option>
-                <option value={typeArray[2]}>口音</option>
-                <option value={typeArray[3]}>片語</option>
-                <option value={typeArray[4]}>口訣</option>
+                <option value="出海專用詞">出海專用詞</option>
+                <option value="生活用語">生活用語</option>
+                <option value="口音">口音</option>
+                <option value="片語">片語</option>
+                <option value="口訣">口訣</option>
               </select>
             </div>
           </div>
@@ -133,11 +122,13 @@ export default function Home() {
         <SignOutButton />
         {/* <ItemDetailPage/> */}
         {/*dialect-list*/}
-        {dialects.map((dialect) => (
-          <DialectList key={dialect.id} id={dialect.id} dialect={dialect} />
-        ))}
+          <div className="dialect-list w-full p-10 pb-20 overflow-y-auto flex flex-wrap gap-5 justify-around">
+            {dialects.map((dialect) => (
+              <DialectList key={dialect.id} id={dialect.id} dialect={dialect} />
+            ))}
+          </div>
         {/* menu */}
-        <Menu />
+        <Menu/>
       </main>
     </>
   );
