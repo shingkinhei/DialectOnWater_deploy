@@ -29,6 +29,10 @@ export default function SignInPhone() {
     //   setError("無此帳戶紀錄。");
   }, [signInMessage]);
 
+  useEffect(() => {
+    setError("");
+  }, []);
+
   async function handlePhoneSignIn(e) {
     e.preventDefault();
     setSignInMessage("");

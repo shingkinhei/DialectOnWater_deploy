@@ -35,14 +35,38 @@
     background-size: cover;
 }
 
+.bg2 {
+  background-image: url(../public/bg2.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .dialect-list-card{
-  width: 400px;
+  width: 380px;
   height: 200px;
+}
+
+.dialect-list-card:last-child{
+  justify-self:flex-start;
+}
+
+@media only screen and (max-width: 1060px) {
+  .dialect-list-card {
+    width: 320px;
+    height: 260px;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .dialect-list-card {
+    width: 100%;
+    height: 300px;
+  }
 }
 
 @media only screen and (max-width: 700px) {
   .dialect-list-card {
     width: 100%;
-    height: 230px;
+    height: 240px;
   }
 }
