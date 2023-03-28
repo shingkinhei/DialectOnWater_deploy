@@ -12,7 +12,14 @@ import {
   signInAnonymously,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { doc, serverTimestamp, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 
 const AuthContext = React.createContext();
@@ -104,15 +111,34 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        setCurrentUser(user);
-        console.log(user);
+        onSnapshot(query(doc(db, "users", user.uid)), (snapshot) => {
+          if (snapshot.data() === undefined) {
+            setCurrentUser({ displayName: "訪客", role: "visitor" });
+            setLoading(false);
+          } else {
+            setCurrentUser(snapshot.data());
+            setLoading(false);
+          }
+        });
       }
 
       console.log(router.pathname);
-      setLoading(false);
     });
     return unsubscribe;
   }, []);
+
+  // useEffect(() => {
+  //   const unsubscribe = auth.onAuthStateChanged((user) => {
+  //     if (user) {
+  //       setCurrentUser(user);
+  //       console.log(user);
+  //     }
+
+  //     console.log(router.pathname);
+  //     setLoading(false);
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
   const value = {
     loading,

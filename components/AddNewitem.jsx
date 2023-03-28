@@ -4,7 +4,6 @@ import { BsPlayFill, BsFillRecordFill, BsFillPauseFill } from "react-icons/bs";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect, useRef } from "react";
 
-import Image from "next/image";
 import { storage } from "../firebase";
 import { db } from "../firebase";
 import { ref, uploadBytes } from "firebase/storage";
@@ -29,7 +28,7 @@ export default function AddNewitem() {
   });
 
   const [audioUpload, setAudioUplaod] = useState(null);
-  const displayName = currentUser.auth.currentUser.displayName;
+  const displayName = currentUser.displayName;
   const status = "pending";
   const fileName = displayName + "_" + dialect;
 
