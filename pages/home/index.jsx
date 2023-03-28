@@ -2,7 +2,6 @@ import Head from "next/head";
 import Menu from "@/components/Menu";
 import DialectList from "@/components/DialectList";
 import SignOutButton from "@/components/SignOutButton";
-import ItemDetailPage from "@/components/ItemDetailPage";
 
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
