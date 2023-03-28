@@ -21,12 +21,13 @@ export default function Menu() {
         <AiFillHome size={40} color="#989FAA" />
       </Button>
 
-      {(currentUser.phoneNumber != null || currentUser.email != null) && (
-        <Link as="/home/addNewitem" href="addNewitem">
-          <div className="rounded-full bg-yellow-400 border-blue-600 border-4 p-4 absolute bottom-4 drop-shadow-lg z-50 translate-x-[-50%]">
-            <AiOutlineAudio size={60} color="#1D82BB" />
-          </div>
-        </Link>
+      {(currentUser?.phoneNumber != null || currentUser?.email != null) && (
+        <div
+          onClick={() => router.push("/addNewitem")}
+          className="rounded-full bg-yellow-400 border-blue-600 border-4 p-4 absolute bottom-4 drop-shadow-lg z-50 cursor-pointer"
+        >
+          <AiOutlineAudio size={60} color="#1D82BB" />
+        </div>
       )}
 
       <Button

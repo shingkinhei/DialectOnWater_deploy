@@ -1,14 +1,14 @@
 import Head from "next/head";
 import Menu from "@/components/Menu";
-import DialectList from "@/components/DialectList"
+import DialectList from "@/components/DialectList";
 import SignOutButton from "@/components/SignOutButton";
-import AddNewitem from "@/components/AddNewitem"
+import AddNewitem from "@/components/AddNewitem";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
 
 export default function Home() {
-      const router = useRouter();
-    return(
+  const router = useRouter();
+  return (
     <>
       <Head>
         <title>Dialect on Water</title>
@@ -18,7 +18,8 @@ export default function Home() {
       </Head>
       <main className="overflow-hidden bg-white rounded-md bg-white  w-full h-full lg:h-4/5 lg:w-4/5 shadow-lg flex items-center flex-col place-content-start relative">
         <AddNewitem />
+        <Menu />
       </main>
-    </>)
-
+    </>
+  );
 }

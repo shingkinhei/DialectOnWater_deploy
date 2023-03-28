@@ -3,7 +3,7 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
-  const protectedRoutes = ["/home"];
+  const protectedRoutes = ["/home", "/addNewitem"];
   const publicRoutes = [
     "/",
     "/sign-in",

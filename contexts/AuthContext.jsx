@@ -120,6 +120,8 @@ export function AuthProvider({ children }) {
             setLoading(false);
           }
         });
+      } else {
+        setLoading(false);
       }
 
       console.log(router.pathname);

@@ -3,7 +3,6 @@ import { CardBody, Typography } from "@material-tailwind/react";
 import { AiOutlineLeft } from "react-icons/ai";
 import { BsPlayFill, BsFillPauseFill } from "react-icons/bs";
 import { Chip } from "@material-tailwind/react";
-import Image from "next/image";
 import { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import { doc, onSnapshot } from "firebase/firestore";
