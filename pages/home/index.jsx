@@ -58,7 +58,11 @@ export default function Home() {
           <div className="top-bar min-w-full flex place-content-between">
             <div>
               <h1 className="text-4xl font-extrabold	">你好</h1>
-              <span className="user-name text-6xl font-extrabold	">Harry</span>
+              <span className="user-name text-6xl font-extrabold	">
+                {currentUser.displayName
+                  ? currentUser.displayName
+                  : currentUser.phoneNumber}
+              </span>
             </div>
             <div className="self-end">
               <svg
@@ -100,9 +104,9 @@ export default function Home() {
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               >
                 <option value="所有地區">所有地區</option>
-                <option value="西貢">西貢</option>
-                <option value="香港仔">香港仔</option>
-                <option value="銅鑼灣">銅鑼灣</option>
+                <option value={originArray[0]}>西貢</option>
+                <option value={originArray[1]}>香港仔</option>
+                <option value={originArray[2]}>銅鑼灣</option>
               </select>
             </div>
             <div className="search-type">
@@ -117,11 +121,11 @@ export default function Home() {
                 className="block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-700 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer"
               >
                 <option value="所有分類">所有分類</option>
-                <option value="出海專用詞">出海專用詞</option>
-                <option value="生活用語">生活用語</option>
-                <option value="口音">口音</option>
-                <option value="片語">片語</option>
-                <option value="口訣">口訣</option>
+                <option value={typeArray[0]}>出海專用詞</option>
+                <option value={typeArray[1]}>生活用語</option>
+                <option value={typeArray[2]}>口音</option>
+                <option value={typeArray[3]}>片語</option>
+                <option value={typeArray[4]}>口訣</option>
               </select>
             </div>
           </div>
