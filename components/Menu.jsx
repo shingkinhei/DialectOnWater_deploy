@@ -16,7 +16,7 @@ export default function Menu() {
         onClick={() => router.push("/home")}
         className="w-1/2 h-full p-2 flex justify-center items-center rounded-none"
         id=""
-        style={{ "background-color": "gainsboro" }}
+        style={{ "backgroundColor": "gainsboro" }}
       >
         <AiFillHome size={40} color="#989FAA" />
       </Button>
@@ -33,7 +33,7 @@ export default function Menu() {
       <Button
         className="w-1/2 h-full p-2 flex justify-center items-center rounded-none"
         id=""
-        style={{ "background-color": "gainsboro" }}
+        style={{ "backgroundColor": "gainsboro" }}
       >
         <AiFillSetting size={40} color="#989FAA" />
       </Button>
