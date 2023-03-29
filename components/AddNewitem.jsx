@@ -4,17 +4,19 @@ import { BsPlayFill, BsFillRecordFill, BsFillPauseFill } from "react-icons/bs";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect, useRef } from "react";
 
-import { storage } from "../firebase";
+// import { storage } from "../firebase";
 import { db } from "../firebase";
-import { ref, uploadBytes } from "firebase/storage";
+import { getStorage,ref, uploadBytes } from "firebase/storage";
 import { doc, setDoc } from "firebase/firestore";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useRouter } from "next/router";
 
 const mimeType = "audio/webm";
 
 export default function AddNewitem() {
   //form information
   const { currentUser } = useAuth();
+  const router = useRouter();
 
   const [dialect, setDialect] = useState("");
   const [meaning, setMeaning] = useState("");
@@ -27,11 +29,11 @@ export default function AddNewitem() {
     emptyDialectType: false,
   });
 
-  const [audioUpload, setAudioUplaod] = useState(null);
+  // const [audioUpload, setAudioUplaod] = useState(null);
   const displayName = currentUser.displayName;
   const status = "pending";
   const fileName = displayName + "_" + dialect;
-
+  const [myfile,setMyFile] = useState("");
   // submit form
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -88,11 +90,12 @@ export default function AddNewitem() {
     if (audio === "") {
       return;
     }
+    const storage = getStorage();
     const audioRef = ref(storage, `audio/${displayName}_${dialect}`);
     const metadata = {
       contentType: mimeType,
     };
-    uploadBytes(audioRef, audio, metadata).then(() => {
+    uploadBytes(audioRef, myfile, metadata).then(() => {
       alert("Audio Uploaded");
     });
   };
@@ -146,6 +149,7 @@ export default function AddNewitem() {
       //creates a playable URL from the blob file.
       const audioUrl = URL.createObjectURL(audioBlob);
       setAudio(audioUrl);
+      setMyFile(blobToFile(audioBlob, fileName));
       setAudioChunks([]);
     };
 
@@ -156,6 +160,13 @@ export default function AddNewitem() {
     setAudioChunks([]);
     setPermission(false);
   };
+
+  function blobToFile(theBlob, fileName){
+    //A Blob() is almost a File() - it's just missing the two properties below which we will add
+    theBlob.lastModifiedDate = new Date();
+    theBlob.name = fileName;
+    return theBlob;
+  }
 
   const audioRef = useRef(null);
   useEffect(() => {
@@ -178,6 +189,7 @@ export default function AddNewitem() {
     } else {
       audioRef.current.play();
       setPlayingStatus("playing");
+      console.log(audio)
     }
   };
 
@@ -185,7 +197,7 @@ export default function AddNewitem() {
     <div className="w-full h-full">
       <div className="w-full bg2 p-8 relative" style={{ minHeight: "250px" }}>
         <a>
-          <AiOutlineLeft size={50} color="#FFFFFF" />
+          <AiOutlineLeft size={50} color="#FFFFFF" onClick={() => router.push("/home")}/>
         </a>
         <Typography
           variant="h1"

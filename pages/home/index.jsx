@@ -15,6 +15,7 @@ import {
 } from "firebase/firestore";
 import { db } from "@/firebase";
 import { useEffect, useState } from "react";
+import { getStorage, ref } from "firebase/storage";
 
 export default function Home() {
   const { currentUser } = useAuth();
