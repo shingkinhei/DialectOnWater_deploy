@@ -21,7 +21,7 @@ export default function Menu() {
         <AiFillHome size={40} color="#989FAA" />
       </Button>
 
-      {(currentUser?.phoneNumber != null || currentUser?.email != null) && (
+      {(currentUser?.role==="admin" || currentUser?.role==="member") && (
         <div
           onClick={() => router.push("/addNewitem")}
           className="rounded-full bg-yellow-400 border-blue-600 border-4 p-4 absolute bottom-4 drop-shadow-lg z-50 cursor-pointer"
