@@ -6,6 +6,7 @@ import { Chip } from "@material-tailwind/react";
 import { useState, useRef, useEffect } from "react";
 import Head from "next/head";
 import { doc, onSnapshot } from "firebase/firestore";
+import { getStorage, ref , getDownloadURL } from "firebase/storage";
 import { db } from "@/firebase";
 import Menu from "@/components/Menu";
 
@@ -14,17 +15,43 @@ export default function DialectPage() {
   const { id } = router.query;
 
   const [audio, setAudio] = useState(null);
-  const [playingStatus, setPlayingStatus] = useState("inactive");
+  const [playingStatus, setPlayingStatus] = useState("paused");
   const [dialect, setDialect] = useState(null);
 
-  const playAudio = () => {
-    setPlayingStatus("playing");
-    document.querySelector("#audioContainer").play();
-  };
+  let fileName = dialect?.fileName;
+  const [audioURL, setAudioURL] = useState("");
 
-  const pauseAudio = () => {
-    setPlayingStatus("inactive");
-    document.querySelector("#audioContainer").pause();
+  const storage = getStorage();
+  getDownloadURL(ref(storage,`audio/${fileName}`))
+    .then((url) => {
+      setAudioURL(url);
+    })
+    .catch((error) => {
+  });
+
+  const audioRef = useRef(null);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+
+    const handleEnded = () => {
+      console.log("Audio has ended");
+      setPlayingStatus("paused");
+    };
+
+    audio.addEventListener("ended", handleEnded);
+
+    return () => audio.removeEventListener("ended", handleEnded);
+  }, []);
+
+  const handlePlayPause = () => {
+    if (playingStatus === "playing") {
+      audioRef.current.pause();
+      setPlayingStatus("paused");
+    } else {
+      audioRef.current.play();
+      setPlayingStatus("playing");
+    }
   };
 
   useEffect(
@@ -63,9 +90,9 @@ export default function DialectPage() {
               {dialect?.dialect}
             </Typography>
             <div className="absolute right-10 -bottom-8">
-              <audio id="audioContainer" src={audio}></audio>
-              {playingStatus === "inactive" ? (
-                <a className="z-10" onClick={playAudio}>
+              <audio ref={audioRef} id="audioContainer" src={audioURL}></audio>
+              {playingStatus === "paused" ? (
+                <a className="z-20" onClick={handlePlayPause}>
                   <div className="rounded-full bg-gray-100 p-2 drop-shadow-lg">
                     <BsPlayFill
                       className="translate-x-1"
@@ -77,7 +104,7 @@ export default function DialectPage() {
               ) : null}
 
               {playingStatus === "playing" ? (
-                <a className="z-10" onClick={pauseAudio}>
+                <a className="z-20" onClick={handlePlayPause}>
                   <div className="rounded-full bg-gray-100 p-2 drop-shadow-lg">
                     <BsFillPauseFill size={100} color="#1D82BB" />
                   </div>
@@ -99,12 +126,6 @@ export default function DialectPage() {
             <Typography variant="h3" color="blue-gray" className="my-6">
               {dialect?.meaning}
             </Typography>
-            <a href="" className="mr-4 text-blue-700 text-base">
-              {"#出海(TAG)"}
-            </a>
-            <a href="" className="mr-4 text-blue-700 text-base">
-              {"#出海(TAG)"}
-            </a>
           </CardBody>
           <Menu />
         </div>
