@@ -31,6 +31,7 @@ export default function Menu() {
       )}
 
       <Button
+        onClick={() => router.push("/setting")}
         className="w-1/2 h-full p-2 flex justify-center items-center rounded-none"
         id=""
         style={{ "backgroundColor": "gainsboro" }}
