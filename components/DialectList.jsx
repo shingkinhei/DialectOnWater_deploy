@@ -62,9 +62,10 @@ export default function DialectList({ id, dialect }) {
     }
   };
 
+
 return (
     <div
-    className="relative dialect-list-card bg1 p-6 bg-white border-gray-200 rounded-lg flex flex-col justify-center shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer"
+    className={currentUser?.role !== "admin" && dialect?.data()?.status==="approved" ? "hidden" : "relative dialect-list-card bg1 p-6 bg-white border-gray-200 rounded-lg flex flex-col justify-center shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 cursor-pointer"}
     >
         {dialect?.data()?.status==="pending" ? (<div className="absolute left-0 top-0">
             <svg width="51" height="44" viewBox="0 0 51 44" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -116,7 +117,7 @@ return (
                 </span>
             </div>
             {currentUser?.role==="admin" ? (<div className="z-30 border-l	pl-4">
-                <a className="flex flex-row" onClick={() => router.push(`/edit/${id}`)}>
+                <a className="flex flex-row" onClick={() => router.push(`dialect/edit/${id}`)}>
                     <span variant="h4" className="text-white">
                     編輯 
                     </span>
