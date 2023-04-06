@@ -59,7 +59,7 @@ export default function DialectPage() {
       onSnapshot(doc(db, "dialect", id), (snapshot) =>
         setDialect(snapshot.data())
       ),
-    [db, id]
+    [id]
   );
 
   return (
