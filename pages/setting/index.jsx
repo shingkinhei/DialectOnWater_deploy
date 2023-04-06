@@ -11,7 +11,7 @@ import {
   Button,
   IconButton,
 } from "@material-tailwind/react";
-import { BsGenderMale, BsGenderFemale } from "react-icons/Bs";
+import { BsGenderMale, BsGenderFemale } from "react-icons/bs";
 import { HiChevronLeft } from "react-icons/hi2";
 import { AiFillCamera ,AiOutlineLeft } from "react-icons/ai";
 import Menu from "@/components/Menu";
