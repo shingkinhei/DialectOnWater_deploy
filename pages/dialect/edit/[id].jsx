@@ -209,7 +209,7 @@ export default function Edititem() {
          setDialectType(snapshot.data().dialectType)
         }
       ),
-    [db, id]
+    [id]
   );
 
   const storage = getStorage();
