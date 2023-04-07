@@ -1,7 +1,6 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -20,3 +19,4 @@ const firebaseApp = initializeApp(firebaseConfig);
 export default firebaseApp;
 export const auth = getAuth(app);
 export { app, db };
+connectAuthEmulator(auth, "http://localhost:9099");
