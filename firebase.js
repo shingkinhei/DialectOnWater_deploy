@@ -18,7 +18,7 @@ const db = getFirestore();
 const firebaseApp = initializeApp(firebaseConfig);
 
 if (process.env.NODE_ENV === "development") {
-  connectAuthEmulator(auth, process.env.FIREBASE_AUTH_DOMAIN, {
+  connectAuthEmulator(auth, process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, {
     disableWarnings: true,
   });
 }
