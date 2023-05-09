@@ -1,5 +1,5 @@
 import { initializeApp, getApp, getApps } from "firebase/app";
-import { getAuth, connectAuthEmulator } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -17,14 +17,9 @@ const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore();
 const firebaseApp = initializeApp(firebaseConfig);
 
-if (process.env.NODE_ENV === "development") {
-  connectAuthEmulator(auth, process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN, {
-    disableWarnings: true,
-  });
-}
+
 
 export default firebaseApp;
 export const auth = getAuth(app);
 export { app, db };
-
 
