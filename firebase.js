@@ -12,13 +12,20 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+const app = initializeApp(firebaseConfig);
 const db = getFirestore();
-const firebaseApp = initializeApp(firebaseConfig);
-connectAuthEmulator(getAuth(app), "https://dialect-on-water-deploy.vercel.app/", {disableWarnings: true});
 
-export default firebaseApp;
 export const auth = getAuth(app);
 export { app, db };
+
+
+// const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+// const db = getFirestore();
+// const firebaseApp = initializeApp(firebaseConfig);
+// connectAuthEmulator(getAuth(app), "https://dialect-on-water-deploy.vercel.app/", {disableWarnings: true});
+
+// export default firebaseApp;
+// export const auth = getAuth(app);
+// export { app, db };
 
 
