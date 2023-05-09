@@ -16,7 +16,7 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const db = getFirestore();
 const firebaseApp = initializeApp(firebaseConfig);
-connectAuthEmulator(getAuth(app),authDomain, {disableWarnings: true});
+connectAuthEmulator(getAuth(app),firebaseConfig.authDomain, {disableWarnings: true});
 
 export default firebaseApp;
 export const auth = getAuth(app);
