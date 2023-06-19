@@ -21,7 +21,7 @@ export default function Home() {
   const { currentUser } = useAuth();
   const router = useRouter();
 
-  const originArray = ["西貢", "香港仔", "銅鑼灣"];
+  const originArray = ["西貢", "香港仔", "銅鑼灣","長洲","筲箕灣","吉澳","大埔","塔門","青山灣（屯門）","青衣","南丫島","坪洲","蒲台島","其他"];
   const typeArray = ["出海專用詞", "生活用語", "口音", "片語", "口訣"];
   const statusArray =["pending","approved"];
 
@@ -105,6 +105,16 @@ export default function Home() {
                 <option value={originArray[0]}>西貢</option>
                 <option value={originArray[1]}>香港仔</option>
                 <option value={originArray[2]}>銅鑼灣</option>
+                <option value={originArray[3]}>長洲</option>
+                <option value={originArray[4]}>筲箕灣</option>
+                <option value={originArray[5]}>吉澳</option>
+                <option value={originArray[6]}>大埔</option>
+                <option value={originArray[7]}>青山灣（屯門）</option>
+                <option value={originArray[8]}>青衣</option>
+                <option value={originArray[9]}>南丫島</option>
+                <option value={originArray[10]}>坪洲</option>
+                <option value={originArray[11]}>蒲台島</option>
+                <option value={originArray[12]}>其他</option>
               </select>
             </div>
             <div className="search-type">
