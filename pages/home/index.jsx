@@ -21,7 +21,7 @@ export default function Home() {
   const { currentUser } = useAuth();
   const router = useRouter();
 
-  const originArray = ["西貢", "香港仔", "銅鑼灣"];
+  const originArray = ["西貢", "香港仔", "銅鑼灣","長洲","筲箕灣","吉澳","大埔","塔門","青山灣（屯門）","青衣","南丫島","坪洲","蒲台島","其他"];
   const typeArray = ["出海專用詞", "生活用語", "口音", "片語", "口訣"];
   const statusArray =["pending","approved"];
 

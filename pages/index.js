@@ -1,4 +1,6 @@
 import Head from "next/head";
+import SignInCard from "@/components/SignInCard";
+import Image from "next/image";
 
 export default function Index() {
   return (
@@ -10,7 +12,10 @@ export default function Index() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <h1 className="text-white">Hello World!</h1>
+        <main className="bg-white	p-6 rounded-md flex flex-col items-center justify-center">
+          <Image src="/logo.jpg" alt="這是註解" width={200} height={200} />
+          <SignInCard />
+        </main>
       </main>
     </>
   );
