@@ -303,6 +303,17 @@ export default function AddNewitem() {
               <option value={"西貢"}>西貢</option>
               <option value={"香港仔"}>香港仔</option>
               <option value={"銅鑼灣"}>銅鑼灣</option>
+              <option value={"長洲"}>長洲</option>
+              <option value={"筲箕灣"}>筲箕灣</option>
+              <option value={"吉澳"}>吉澳</option>
+              <option value={"大埔"}>大埔</option>
+              <option value={"塔門"}>塔門</option>
+              <option value={"青山灣（屯門）"}>青山灣（屯門）</option>
+              <option value={"青衣"}>青衣</option>
+              <option value={"南丫島"}>南丫島</option>
+              <option value={"坪洲"}>坪洲</option>
+              <option value={"蒲台島"}>蒲台島</option>
+              <option value={"其他"}>其他</option>
             </select>
             {error.emptyOrigin === true && (
               <Typography className="mt-1 font-normal text-red-400">
