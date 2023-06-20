@@ -313,7 +313,9 @@ export default function AddNewitem() {
               <option value={"南丫島"}>南丫島</option>
               <option value={"坪洲"}>坪洲</option>
               <option value={"蒲台島"}>蒲台島</option>
+              <option value={"大澳"}>大澳</option>
               <option value={"其他"}>其他</option>
+              
             </select>
             {error.emptyOrigin === true && (
               <Typography className="mt-1 font-normal text-red-400">
