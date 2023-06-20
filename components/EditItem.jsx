@@ -147,6 +147,7 @@ export default function EditItem() {
                         <option>西貢</option>
                         <option>香港仔</option>
                         <option>銅鑼灣</option>
+                        <option>大澳</option>
                     </select>
             </div>
             <div className="w-full lg:w-1/3">
