@@ -144,10 +144,22 @@ export default function EditItem() {
             <div className="w-full lg:w-1/3">
                 <label htmlFor="origin" className="block mb-2 text-2xl font-medium text-gray-900 dark:text-white">地區</label>
                     <select id="origin" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
                         <option>西貢</option>
                         <option>香港仔</option>
                         <option>銅鑼灣</option>
+                        <option>長洲</option>
+                        <option>筲箕灣</option>
+                        <option>吉澳</option>
+                        <option>大埔</option>
+                        <option>青山灣（屯門）</option>
+                        <option>青衣</option>
+                        <option>南丫島</option>
+                        <option>坪洲</option>
+                        <option>蒲台島</option>
                         <option>大澳</option>
+                        <option>其他</option>
+                        
                     </select>
             </div>
             <div className="w-full lg:w-1/3">
