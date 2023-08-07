@@ -109,13 +109,14 @@ export default function Home() {
                 <option value={originArray[4]}>筲箕灣</option>
                 <option value={originArray[5]}>吉澳</option>
                 <option value={originArray[6]}>大埔</option>
-                <option value={originArray[7]}>青山灣（屯門）</option>
-                <option value={originArray[8]}>青衣</option>
-                <option value={originArray[9]}>南丫島</option>
-                <option value={originArray[10]}>坪洲</option>
-                <option value={originArray[11]}>蒲台島</option>
-                <option value={originArray[12}>大澳</option>
-                <option value={originArray[13]}>其他</option>
+                <option value={originArray[7]}>塔門</option>
+                <option value={originArray[8]}>青山灣（屯門）</option>
+                <option value={originArray[9]}>青衣</option>
+                <option value={originArray[10]}>南丫島</option>
+                <option value={originArray[11]}>坪洲</option>
+                <option value={originArray[12]}>蒲台島</option>
+                <option value={originArray[13}>大澳</option>
+                <option value={originArray[14]}>其他</option>
               </select>
             </div>
             <div className="search-type">
