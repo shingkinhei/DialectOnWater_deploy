@@ -115,7 +115,7 @@ export default function Home() {
                 <option value={originArray[10]}>南丫島</option>
                 <option value={originArray[11]}>坪洲</option>
                 <option value={originArray[12]}>蒲台島</option>
-                <option value={originArray[13}>大澳</option>
+                <option value={originArray[13]}>大澳</option>
                 <option value={originArray[14]}>其他</option>
               </select>
             </div>
